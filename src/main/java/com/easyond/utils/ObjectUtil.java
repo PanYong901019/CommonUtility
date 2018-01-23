@@ -21,7 +21,7 @@ import java.util.*;
 public class ObjectUtil {
 
     public static Map<String, Object> jsonStringToMap(String json) {
-        return JSON.parseObject(json, TreeMap.class);
+        return JSON.parseObject(json, Map.class);
     }
 
     public static String mapToJsonString(Map<String, Object> map) {
@@ -33,13 +33,15 @@ public class ObjectUtil {
     }
 
     public static <T> T jsonStringToObject(String jsonString, Class<T> t) {
-        T obj = null;
-        obj = JSON.parseObject(jsonString, t);
-        return obj;
+        return JSON.parseObject(jsonString, t);
+    }
+
+    public static <T> T jsonObjectToObject(JSONObject jsonObject, Class<T> t) {
+        return JSON.parseObject(jsonObject.toJSONString(), t);
     }
 
     public static Map<String, Object> objectToMap(Object obj) {
-        return JSON.parseObject(JSON.toJSONString(obj), TreeMap.class);
+        return JSON.parseObject(JSON.toJSONString(obj), Map.class);
     }
 
     public static Map<String, String> xmlStringToMap(String xml) {

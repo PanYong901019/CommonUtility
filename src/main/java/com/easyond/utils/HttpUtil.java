@@ -48,7 +48,7 @@ public class HttpUtil {
             for (Map.Entry<String, String> entry : parameterMap.entrySet()) {
                 urlBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
             }
-            url = urlBuilder.toString().substring(0, url.length() - 1);
+            url = urlBuilder.toString().substring(0, urlBuilder.toString().length() - 1);
         }
         HttpGet get = new HttpGet(url);
         response = client.execute(get);
@@ -71,7 +71,7 @@ public class HttpUtil {
             for (Map.Entry<String, String> entry : parameterMap.entrySet()) {
                 urlBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
             }
-            url = urlBuilder.toString().substring(0, url.length() - 1);
+            url = urlBuilder.toString().substring(0, urlBuilder.toString().length() - 1);
         }
         HttpGet get = new HttpGet(url);
         if (headerMap != null) {
