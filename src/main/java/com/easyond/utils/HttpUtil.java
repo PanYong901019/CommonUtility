@@ -3,25 +3,17 @@ package com.easyond.utils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,14 +27,7 @@ public class HttpUtil {
 
     public static String doHttpGet(String url, Map<String, String> parameterMap) throws Exception {
         String result;
-        String protocol = url.split(":")[0];
-        HttpClient client;
-        if (!StringUtil.invalid(protocol) && protocol.equals("https")) {
-            client = new SSLClient();
-        } else {
-            client = new DefaultHttpClient();
-        }
-        HttpResponse response;
+        CloseableHttpClient client = HttpClients.createDefault();
         if (parameterMap != null) {
             StringBuilder urlBuilder = new StringBuilder(url + "?");
             for (Map.Entry<String, String> entry : parameterMap.entrySet()) {
@@ -51,21 +36,15 @@ public class HttpUtil {
             url = urlBuilder.toString().substring(0, urlBuilder.toString().length() - 1);
         }
         HttpGet get = new HttpGet(url);
-        response = client.execute(get);
+        CloseableHttpResponse response = client.execute(get);
         result = EntityUtils.toString(response.getEntity(), getContentCharset(response));
+        response.close();
         return result;
     }
 
     public static String doHttpGet(String url, Map<String, String> parameterMap, Map<String, String> headerMap) throws Exception {
         String result;
-        String protocol = url.split(":")[0];
-        HttpClient client;
-        if (!StringUtil.invalid(protocol) && protocol.equals("https")) {
-            client = new SSLClient();
-        } else {
-            client = new DefaultHttpClient();
-        }
-        HttpResponse response;
+        CloseableHttpClient client = HttpClients.createDefault();
         if (parameterMap != null) {
             StringBuilder urlBuilder = new StringBuilder(url + "?");
             for (Map.Entry<String, String> entry : parameterMap.entrySet()) {
@@ -79,15 +58,15 @@ public class HttpUtil {
                 get.setHeader(entry.getKey(), entry.getValue());
             }
         }
-        response = client.execute(get);
+        CloseableHttpResponse response = client.execute(get);
         result = EntityUtils.toString(response.getEntity(), getContentCharset(response));
+        response.close();
         return result;
     }
 
     public static String doHttpPost(String url, Map<String, String> parameterMap) throws Exception {
         String result;
-        HttpClient client = new DefaultHttpClient();
-        HttpResponse response;
+        CloseableHttpClient client = HttpClients.createDefault();
         ArrayList<NameValuePair> parameters = null;
         if (parameterMap != null) {
             parameters = new ArrayList<NameValuePair>();
@@ -97,15 +76,15 @@ public class HttpUtil {
         }
         HttpPost post = new HttpPost(url);
         post.setEntity(new UrlEncodedFormEntity(parameters, "utf8"));
-        response = client.execute(post);
+        CloseableHttpResponse response = client.execute(post);
         result = EntityUtils.toString(response.getEntity(), getContentCharset(response));
+        response.close();
         return result;
     }
 
     public static String doHttpPost(String url, Map<String, String> parameterMap, Map<String, String> headerMap) throws Exception {
         String result;
-        HttpClient client = new DefaultHttpClient();
-        HttpResponse response;
+        CloseableHttpClient client = HttpClients.createDefault();
         ArrayList<NameValuePair> parameters = null;
         if (parameterMap != null) {
             parameters = new ArrayList<NameValuePair>();
@@ -120,30 +99,31 @@ public class HttpUtil {
                 post.setHeader(entry.getKey(), entry.getValue());
             }
         }
-        response = client.execute(post);
+        CloseableHttpResponse response = client.execute(post);
         result = EntityUtils.toString(response.getEntity(), getContentCharset(response));
+        response.close();
         return result;
     }
 
     public static String doHttpPostXML(String url, String xml) throws Exception {
         String result;
-        HttpClient client = new DefaultHttpClient();
-        HttpResponse response;
+        CloseableHttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(url);
         post.setEntity(new StringEntity(xml, ContentType.APPLICATION_XML));
-        response = client.execute(post);
+        CloseableHttpResponse response = client.execute(post);
         result = EntityUtils.toString(response.getEntity(), getContentCharset(response));
+        response.close();
         return result;
     }
 
     public static String doHttpPostJson(String url, String json) throws Exception {
         String result;
-        HttpClient client = new DefaultHttpClient();
-        HttpResponse response;
+        CloseableHttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(url);
         post.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
-        response = client.execute(post);
+        CloseableHttpResponse response = client.execute(post);
         result = EntityUtils.toString(response.getEntity(), getContentCharset(response));
+        response.close();
         return result;
     }
 
@@ -177,32 +157,6 @@ public class HttpUtil {
         Pattern p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE + Pattern.UNICODE_CASE);
         Matcher matcher = p.matcher(s);
         return matcher.find();
-    }
-
-
-    private static class SSLClient extends DefaultHttpClient {
-        SSLClient() throws Exception {
-            super();
-            SSLContext ctx = SSLContext.getInstance("TLS");
-            X509TrustManager tm = new X509TrustManager() {
-                public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
-
-                }
-
-                public void checkServerTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
-
-                }
-
-                public X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
-            };
-            ctx.init(null, new TrustManager[]{tm}, null);
-            SSLSocketFactory ssf = new SSLSocketFactory(ctx, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            ClientConnectionManager ccm = this.getConnectionManager();
-            SchemeRegistry sr = ccm.getSchemeRegistry();
-            sr.register(new Scheme("https", 443, ssf));
-        }
     }
 
 }
