@@ -127,13 +127,24 @@ public class HttpUtil {
         return result;
     }
 
-    public static String getTinyUrl(String url) throws Exception {
+    public static String getBaiduTinyUrl(String url) throws Exception {
         String tinyurl = null;
         Map<String, String> map = new HashMap<String, String>();
         map.put("url", url);
         String result = doHttpPost("http://dwz.cn/create.php", map);
         Map<String, Object> objectMap = ObjectUtil.jsonStringToMap(result);
         tinyurl = (String) objectMap.get("tinyurl");
+        return tinyurl;
+    }
+
+    public static String getSinaTinyUrl(String url) throws Exception {
+        String tinyurl = null;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("source", "3271760578");
+        map.put("url_long", url);
+        String result = doHttpPost("http://api.t.sina.com.cn/short_url/shorten.json", map);
+        Map<String, Object> objectMap = ObjectUtil.jsonStringToMap(result);
+        tinyurl = (String) objectMap.get("url_short");
         return tinyurl;
     }
 
