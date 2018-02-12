@@ -44,6 +44,10 @@ public class ObjectUtil {
         return JSON.parseObject(JSON.toJSONString(obj), Map.class);
     }
 
+    public static <T> List<T> jsonStringToArray(String text, Class<T> clazz) {
+        return JSON.parseArray(text, clazz);
+    }
+
     public static Map<String, String> xmlStringToMap(String xml) {
         Map<String, String> map = new HashMap<String, String>();
         Document doc = null;
