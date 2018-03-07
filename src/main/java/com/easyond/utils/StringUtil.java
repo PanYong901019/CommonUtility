@@ -19,6 +19,14 @@ public class StringUtil {
         return str == null || "".equals(str.trim());
     }
 
+    public static boolean isNumber(String str) {
+        if (!invalid(str)) {
+            Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+            return pattern.matcher(str).matches();
+        } else {
+            return false;
+        }
+    }
 
     public static boolean isHave(String[] strs, String s) {
         for (String str : strs) {
