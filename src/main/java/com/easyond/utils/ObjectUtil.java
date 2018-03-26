@@ -3,6 +3,7 @@ package com.easyond.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.dom4j.Document;
@@ -34,6 +35,10 @@ public class ObjectUtil {
 
     public static <T> T jsonStringToObject(String jsonString, Class<T> t) {
         return JSON.parseObject(jsonString, t);
+    }
+
+    public static <T> T jsonStringToObject(String jsonString, TypeReference<T> typeReference) {
+        return JSON.parseObject(jsonString, typeReference);
     }
 
     public static <T> T jsonObjectToObject(JSONObject jsonObject, Class<T> t) {
