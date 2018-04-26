@@ -192,6 +192,19 @@ public class DateUtil {
         return Integer.parseInt(String.valueOf(between_days));
     }
 
+    public static String daysBetweenString(Date startDate, Date endDate) {
+        long nd = 1000 * 24 * 60 * 60;
+        long nh = 1000 * 60 * 60;
+        long nm = 1000 * 60;
+        long ns = 1000;
+        long diff = endDate.getTime() - startDate.getTime();
+        long day = diff / nd;
+        long hour = diff % nd / nh;
+        long min = diff % nd % nh / nm;
+        long sec = diff % nd % nh % nm / ns;
+        return day + "天" + hour + "小时" + min + "分钟" + sec + "秒";
+    }
+
     public static Date getDateAfter(Date date, int day) {
         Calendar now = Calendar.getInstance();
         now.setTime(date);
