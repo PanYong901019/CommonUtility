@@ -8,9 +8,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class PoiUtil {
 
@@ -84,5 +84,19 @@ public class PoiUtil {
             map.put(sheet.getSheetName(), lists);
         }
         return map;
+    }
+
+    public static Date getExcelDateString(String date) {
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+        Date d = new Date();
+        try {
+            d = df1.parse("1900-01-01");
+        } catch (ParseException e) {
+            return d;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(d);
+        calendar.add(Calendar.DATE, new Integer(date));
+        return calendar.getTime();
     }
 }

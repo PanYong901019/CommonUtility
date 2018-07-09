@@ -193,16 +193,33 @@ public class DateUtil {
     }
 
     public static String daysBetweenString(Date startDate, Date endDate) {
+        long diff = endDate.getTime() - startDate.getTime();
+        return daysBetweenString(diff);
+    }
+
+    public static String daysBetweenString(long millisecond) {
         long nd = 1000 * 24 * 60 * 60;
         long nh = 1000 * 60 * 60;
         long nm = 1000 * 60;
         long ns = 1000;
-        long diff = endDate.getTime() - startDate.getTime();
-        long day = diff / nd;
-        long hour = diff % nd / nh;
-        long min = diff % nd % nh / nm;
-        long sec = diff % nd % nh % nm / ns;
-        return day + "天" + hour + "小时" + min + "分钟" + sec + "秒";
+        long day = millisecond / nd;
+        long hour = millisecond % nd / nh;
+        long min = millisecond % nd % nh / nm;
+        long sec = millisecond % nd % nh % nm / ns;
+        StringBuilder sb = new StringBuilder();
+        if (day != 0) {
+            sb.append(day).append("天");
+        }
+        if (hour != 0) {
+            sb.append(hour).append("小时");
+        }
+        if (min != 0) {
+            sb.append(min).append("分钟");
+        }
+        if (sec != 0) {
+            sb.append(sec).append("秒");
+        }
+        return sb.toString();
     }
 
     public static Date getDateAfter(Date date, int day) {

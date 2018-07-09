@@ -36,7 +36,7 @@ public class LocationUtil {
         param.put("coords", longitude + "," + latitude);
         param.put("from", from);
         param.put("to", to);
-        param.put("ak", "ASTYdUEWqemORMENNEzBROoEQtx60PLh");
+        param.put("ak", "ZSTYdUEWqemORMENNEzBROoEQtx60PLh");
         Map<String, Object> stringObjectMap = ObjectUtil.jsonStringToMap(HttpUtil.doHttpGet("http://api.map.baidu.com/geoconv/v1/", param));
         if ((Integer) stringObjectMap.get("status") == 0) {
             Map node = (Map) ((List) stringObjectMap.get("result")).get(0);
@@ -64,7 +64,7 @@ public class LocationUtil {
         LinkedHashMap<String, Map<String, String>> result = new LinkedHashMap<>();
         if (origins != null && origins.size() != 0 && !StringUtil.invalid(destination) && !StringUtil.invalid(type)) {
             StringBuilder sb = new StringBuilder();
-            origins.forEach(s -> sb.append(s).append("|"));
+            origins.forEach(s -> sb.append(s).append("%7C"));
             sb.substring(0, sb.length() - 1);
             String url = "http://restapi.amap.com/v3/distance";
             Map<String, String> params = new HashMap<String, String>();
@@ -80,7 +80,7 @@ public class LocationUtil {
                 if (new Integer(m1.get("distance")).equals(new Integer(m2.get("distance")))) return 0;
                 return -1;
             }).forEach(map -> {
-                result.put(origins.get(new Integer(map.get("origin_id"))), map);
+                result.put(origins.get(new Integer(map.get("origin_id")) - 1), map);
             });
         }
         return result;
