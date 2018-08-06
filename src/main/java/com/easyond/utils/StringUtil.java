@@ -184,7 +184,7 @@ public class StringUtil {
     public static String sign(String src, String salt) {
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
-            byte[] bs = md5.digest(src.getBytes());
+            byte[] bs = md5.digest((src + salt).getBytes());
             return new String(new Hex().encode(bs));
         } catch (Exception e) {
             return null;
