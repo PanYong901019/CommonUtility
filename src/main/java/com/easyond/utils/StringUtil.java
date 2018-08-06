@@ -1,5 +1,7 @@
 package com.easyond.utils;
 
+import org.apache.commons.codec.binary.Hex;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -178,4 +180,19 @@ public class StringUtil {
         LinkedHashMap<String, String> sign = sign(signKey, algorithm, paramsMap, apart, toLowerCase);
         return signature.equals(sign.get("signature"));
     }
+
+    public static String sign(String src, String salt) {
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            byte[] bs = md5.digest(src.getBytes());
+            return new String(new Hex().encode(bs));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static boolean veryifySign(String src, String md5String, String salt) {
+        return Objects.equals(sign(src, salt), md5String);
+    }
+
 }
