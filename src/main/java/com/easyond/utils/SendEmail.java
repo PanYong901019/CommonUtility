@@ -54,7 +54,7 @@ public class SendEmail {
      * @param tolist  收件人地址
      * @param cclist  抄送人地址
      */
-    public static void doSendHtmlEmail(String subject, String content, List<String> tolist, List<String> cclist) {
+    public void doSendHtmlEmail(String subject, String content, List<String> tolist, List<String> cclist) {
         try {
             Address from = new InternetAddress(MimeUtility.encodeWord(nickname) + " <" + senderUsername + ">");
             Address[] to = new InternetAddress[tolist.size()];
@@ -97,7 +97,7 @@ public class SendEmail {
      * @param tolist  收件人地址
      * @param cclist  抄送人地址
      */
-    public static void doSendTextEmail(String subject, String content, List<String> tolist, List<String> cclist) {
+    public void doSendTextEmail(String subject, String content, List<String> tolist, List<String> cclist) {
         try {
             Address from = new InternetAddress(MimeUtility.encodeWord(nickname) + " <" + senderUsername + ">");
             Address[] to = new InternetAddress[tolist.size()];

@@ -69,6 +69,38 @@ public class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * 下划线转驼峰
+     *
+     * @param str abc_def => abcDef
+     * @return abc_def => abcDef
+     */
+    public static String lineToHump(String str) {
+        Matcher matcher = Pattern.compile("_(\\w)").matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
+    /**
+     * 驼峰转下划线
+     *
+     * @param str abcDef => abc_def
+     * @return abcDef => abc_def
+     */
+    public static String humpToLine(String str) {
+        Matcher matcher = Pattern.compile("[A-Z]").matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
     //生成指定长度code
     public static String genCode(int size) {
         String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
