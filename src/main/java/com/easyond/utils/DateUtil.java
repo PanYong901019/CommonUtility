@@ -230,8 +230,12 @@ public class DateUtil {
     }
 
     public static String[] getAfterAllDate(Date date, int day) {
-        String[] result = new String[7];
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return getAfterAllDate(date, day, "yyyy-MM-dd");
+    }
+
+    public static String[] getAfterAllDate(Date date, int day, String format) {
+        String[] result = new String[day];
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
         for (int i = 0; i < Math.abs(day); i++) {
             Calendar calendar = Calendar.getInstance(Locale.CHINA);
             if (date != null) {
