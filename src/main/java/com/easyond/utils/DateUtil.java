@@ -234,7 +234,7 @@ public class DateUtil {
     }
 
     public static String[] getAfterAllDate(Date date, int day, String format) {
-        String[] result = new String[day];
+        String[] result = new String[Math.abs(day)];
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         for (int i = 0; i < Math.abs(day); i++) {
             Calendar calendar = Calendar.getInstance(Locale.CHINA);
@@ -310,5 +310,37 @@ public class DateUtil {
         String format = sdf.format(date);
         String[] split = format.split("-");
         return split[2];
+    }
+
+    public static String stampToDate(String s, String format) {
+        if (!StringUtil.invalid(s)) {
+            String res;
+            s = s.length() < 13 ? s + "0000000000000".substring(0, 13 - s.length()) : s;
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+            long lt = new Long(s);
+            Date date = new Date(lt);
+            res = simpleDateFormat.format(date);
+            return res;
+        } else {
+            return "";
+        }
+    }
+
+    public static String dateToStamp(String s, String format) {
+        if (!StringUtil.invalid(s)) {
+            String res;
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+            Date date = null;
+            try {
+                date = simpleDateFormat.parse(s);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            long ts = date.getTime();
+            res = String.valueOf(ts);
+            return res;
+        } else {
+            return "";
+        }
     }
 }
