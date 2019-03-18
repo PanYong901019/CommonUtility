@@ -127,6 +127,22 @@ public class HttpUtil {
         return result;
     }
 
+    public static String doHttpPostJson(String url, String json, Map<String, String> headerMap) throws Exception {
+        String result;
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost post = new HttpPost(url);
+        post.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
+        if (headerMap != null) {
+            for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                post.setHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        CloseableHttpResponse response = client.execute(post);
+        result = EntityUtils.toString(response.getEntity(), getContentCharset(response));
+        response.close();
+        return result;
+    }
+
     public static String getBaiduTinyUrl(String url) throws Exception {
         String tinyurl = null;
         Map<String, String> map = new HashMap<String, String>();
