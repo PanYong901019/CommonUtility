@@ -41,7 +41,7 @@ public class StringUtil {
 
     public static List<String[]> doRegex(String content, String regex, Integer groupAmount) {
         List<String[]> result = new ArrayList<String[]>();
-        String[] strings = new String[groupAmount];
+        String[] strings = new String[groupAmount + 1];
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(content);
         while (matcher.find()) {
