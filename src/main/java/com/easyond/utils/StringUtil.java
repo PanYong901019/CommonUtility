@@ -183,6 +183,23 @@ public class StringUtil {
         }
     }
 
+    public static Boolean verifyIdcard(String idcard) {
+        if (!invalid(idcard)) {
+            String cardNo = idcard.substring(0, idcard.length() - 1);
+            char pszSrc[] = cardNo.toCharArray();
+            int iS = 0;
+            int iW[] = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
+            char[] szVerCode = new char[]{'1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};
+            for (int i = 0; i < 17; i++) {
+                iS += (pszSrc[i] - '0') * iW[i];
+            }
+            int iY = iS % 11;
+            return idcard.equals(cardNo + szVerCode[iY]);
+        } else {
+            return false;
+        }
+    }
+
     public static LinkedHashMap<String, String> sign(String signKey, String algorithm, LinkedHashMap<String, String> paramsMap, String apart, boolean toLowerCase) {
         LinkedHashMap<String, String> ret = new LinkedHashMap<String, String>();
         String signature = "";
