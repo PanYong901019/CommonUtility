@@ -176,6 +176,20 @@ public class DateUtil {
         return weekName;
     }
 
+    public static Integer secondBetween(String startDate, String endDate, String format) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(sdf.parse(startDate));
+        long time1 = cal.getTimeInMillis();
+        cal.setTime(sdf.parse(endDate));
+        long time2 = cal.getTimeInMillis();
+        long between_days = (time2 - time1) / 1000;
+        return Integer.parseInt(String.valueOf(between_days));
+    }
+
+    public static Integer secondBetween(Date startDate, Date endDate) throws ParseException {
+        return secondBetween(getDateString(startDate, "yyyy-MM-dd HH:mm:ss"), getDateString(endDate, "yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss");
+    }
 
     public static Integer daysBetween(Date startDate, Date endDate) throws ParseException {
         return daysBetween(getDateString(startDate, "yyyy-MM-dd"), getDateString(endDate, "yyyy-MM-dd"), "yyyy-MM-dd");
