@@ -21,6 +21,10 @@ public class StringUtil {
         return str == null || "".equals(str.trim());
     }
 
+    public static boolean anyInvalid(String... strs) {
+        return Arrays.stream(strs).anyMatch(StringUtil::invalid);
+    }
+
     public static boolean isNumber(String str) {
         if (!invalid(str)) {
             Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
