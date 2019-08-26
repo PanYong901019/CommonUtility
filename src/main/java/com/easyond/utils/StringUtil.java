@@ -34,7 +34,7 @@ public class StringUtil {
         }
     }
 
-    public static boolean isHave(String[] strs, String s) {
+    public static boolean isHave(String s, String... strs) {
         for (String str : strs) {
             if (str.equals(s)) {
                 return true;
