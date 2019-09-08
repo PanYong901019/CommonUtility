@@ -36,9 +36,13 @@ public class DateUtil {
     }
 
     public static String getDateString(Date date, String format) {
+        return getDateString(date, format, Locale.CHINA);
+    }
+
+    public static String getDateString(Date date, String format, Locale locale) {
         String result = null;
         if (date != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat(format);
+            SimpleDateFormat sdf = new SimpleDateFormat(format, locale);
             result = sdf.format(date);
         }
         return result;
