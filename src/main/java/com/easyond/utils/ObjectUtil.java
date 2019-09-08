@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.dom4j.Document;
@@ -26,11 +27,11 @@ public class ObjectUtil {
     }
 
     public static String mapToJsonString(Map<String, Object> map) {
-        return JSON.toJSONString(map);
+        return JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
     }
 
     public static String objectToJsonString(Object obj) {
-        return JSON.toJSONString(obj);
+        return JSON.toJSONString(obj, SerializerFeature.DisableCircularReferenceDetect);
     }
 
     public static <T> T jsonStringToObject(String jsonString, Class<T> t) {

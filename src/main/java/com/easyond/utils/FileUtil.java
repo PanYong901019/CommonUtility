@@ -57,4 +57,10 @@ public class FileUtil {
         byteArrayOutputStream.writeTo(fileOutputStream);
     }
 
+    public static void doWriterFile(byte[] bytes, File file) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byteArrayOutputStream.write(bytes);
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        byteArrayOutputStream.writeTo(fileOutputStream);
+    }
 }

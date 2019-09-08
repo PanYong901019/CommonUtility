@@ -14,6 +14,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +63,24 @@ public class HttpUtil {
         result = EntityUtils.toString(response.getEntity(), getContentCharset(response));
         response.close();
         return result;
+    }
+
+    public static File download(String url, String fileName, String suffix, Map<String, String> parameterMap) throws Exception {
+        CloseableHttpClient client = HttpClients.createDefault();
+        if (parameterMap != null) {
+            StringBuilder urlBuilder = new StringBuilder(url + "?");
+            for (Map.Entry<String, String> entry : parameterMap.entrySet()) {
+                urlBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+            }
+            url = urlBuilder.toString().substring(0, urlBuilder.toString().length() - 1);
+        }
+        HttpGet get = new HttpGet(url);
+        CloseableHttpResponse response = client.execute(get);
+        byte[] bytes = EntityUtils.toByteArray(response.getEntity());
+        File tempFile = File.createTempFile(fileName, suffix);
+        FileUtil.doWriterFile(bytes, tempFile);
+        response.close();
+        return tempFile;
     }
 
     public static String doHttpPost(String url, Map<String, String> parameterMap) throws Exception {
