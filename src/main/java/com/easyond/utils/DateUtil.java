@@ -212,10 +212,20 @@ public class DateUtil {
 
     public static String daysBetweenString(Date startDate, Date endDate) {
         long diff = endDate.getTime() - startDate.getTime();
-        return daysBetweenString(diff);
+        return daysBetweenString(diff, Locale.CHINA);
     }
 
-    public static String daysBetweenString(long millisecond) {
+    public static String daysBetweenString(long millisecond, Locale locale) {
+        String[] zh = {"天", "小时", "分钟", "秒"};
+        String[] us = {" day", " hour", " Minute", " second"};
+        if (locale.equals(Locale.CHINA)) {
+            return daysBetweenString(millisecond, zh);
+        } else {
+            return daysBetweenString(millisecond, us);
+        }
+    }
+
+    public static String daysBetweenString(long millisecond, String[] strings) {
         long nd = 1000 * 24 * 60 * 60;
         long nh = 1000 * 60 * 60;
         long nm = 1000 * 60;
@@ -226,16 +236,16 @@ public class DateUtil {
         long sec = millisecond % nd % nh % nm / ns;
         StringBuilder sb = new StringBuilder();
         if (day != 0) {
-            sb.append(day).append("天");
+            sb.append(day).append(strings[0]);
         }
         if (hour != 0) {
-            sb.append(hour).append("小时");
+            sb.append(hour).append(strings[1]);
         }
         if (min != 0) {
-            sb.append(min).append("分钟");
+            sb.append(min).append(strings[2]);
         }
         if (sec != 0) {
-            sb.append(sec).append("秒");
+            sb.append(sec).append(strings[3]);
         }
         return sb.toString();
     }
