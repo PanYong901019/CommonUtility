@@ -10,6 +10,7 @@ import java.security.MessageDigest;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Created by Pan on 2018/1/10.
@@ -41,6 +42,23 @@ public class StringUtil {
             }
         }
         return false;
+    }
+
+
+    public static List<String> stringToList(String source, String regex) {
+        return Arrays.stream(source.replaceAll("，", ",").split(regex)).collect(Collectors.toList());
+    }
+
+    public static List<String> stringToListForTrim(String source, String regex) {
+        return Arrays.stream(source.replaceAll("，", ",").split(regex)).filter(s -> !invalid(s)).collect(Collectors.toList());
+    }
+
+    public static String[] stringToArray(String source, String regex) {
+        return stringToList(source, regex).stream().toArray(String[]::new);
+    }
+
+    public static String[] stringToArrayForTrim(String source, String regex) {
+        return stringToListForTrim(source, regex).stream().toArray(String[]::new);
     }
 
     public static List<String[]> doRegex(String content, String regex, Integer groupAmount) {
