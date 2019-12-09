@@ -38,29 +38,45 @@ public class FileUtil {
         }
     }
 
-    public static void doWriterFile(ByteArrayOutputStream byteArrayOutputStream, String filePath) throws IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream(filePath);
-        byteArrayOutputStream.writeTo(fileOutputStream);
+
+    public static void doWriterFile(byte[] bytes, File file) throws IOException {
+        if (!file.exists()) {
+            boolean newFile = file.createNewFile();
+        }
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file); BufferedOutputStream buff = new BufferedOutputStream(fileOutputStream)) {
+            buff.write(bytes);
+            buff.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void doWriterFile(String content, String filePath) throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byteArrayOutputStream.write(content.getBytes());
-        FileOutputStream fileOutputStream = new FileOutputStream(filePath);
-        byteArrayOutputStream.writeTo(fileOutputStream);
+        File file = new File(filePath);
+        doWriterFile(content.getBytes(), file);
+    }
+
+    public static void doWriterFile(String content, File file) throws IOException {
+        doWriterFile(content.getBytes(), file);
     }
 
     public static void doWriterFile(byte[] bytes, String filePath) throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byteArrayOutputStream.write(bytes);
-        FileOutputStream fileOutputStream = new FileOutputStream(filePath);
-        byteArrayOutputStream.writeTo(fileOutputStream);
+        File file = new File(filePath);
+        doWriterFile(bytes, file);
     }
 
-    public static void doWriterFile(byte[] bytes, File file) throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byteArrayOutputStream.write(bytes);
-        FileOutputStream fileOutputStream = new FileOutputStream(file);
-        byteArrayOutputStream.writeTo(fileOutputStream);
+    public static void doAppendFile(String content, File file) throws IOException {
+        if (!file.exists()) {
+            boolean newFile = file.createNewFile();
+        }
+        try (FileWriter writer = new FileWriter(file, true)) {
+            writer.write(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        doWriterFile("a\nb\nc\nd\n".getBytes(), "/Users/pan/deleteMe.txt");
     }
 }

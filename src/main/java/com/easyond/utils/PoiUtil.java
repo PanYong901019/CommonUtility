@@ -77,6 +77,30 @@ public class PoiUtil {
         return stream;
     }
 
+    public static ByteArrayOutputStream doWriterExcel(Map<String, List<List<String>>> map) throws IOException {
+        Workbook wb = new XSSFWorkbook();
+        for (String key : map.keySet()) {
+            Sheet sheet = wb.createSheet(key);
+            List<List<String>> lists = map.get(key);
+            for (int i = 0; i < lists.size(); i++) {
+                Row row = sheet.createRow(i);
+                List list = lists.get(i);
+                for (int j = 0; j < list.size(); j++) {
+                    Cell cell = row.createCell(j);
+                    try {
+                        cell.setCellValue(list.get(j).toString());
+                    } catch (NullPointerException e) {
+                        cell.setCellValue("");
+                    }
+                }
+            }
+        }
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        wb.write(stream);
+        stream.close();
+        return stream;
+    }
+
     public static LinkedHashMap<String, LinkedList<List>> doReadExcel(File file, String fileType) throws Exception {
         FileInputStream excel = new FileInputStream(file);
         LinkedHashMap<String, LinkedList<List>> map = new LinkedHashMap<>();
