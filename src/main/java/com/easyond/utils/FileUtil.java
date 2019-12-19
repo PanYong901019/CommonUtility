@@ -40,7 +40,8 @@ public class FileUtil {
 
 
     public static void doWriterFile(byte[] bytes, File file) throws IOException {
-        if (!file.exists()) {
+        if (!file.getParentFile().exists() || !file.exists()) {
+            boolean mkdirs = file.getParentFile().mkdirs();
             boolean newFile = file.createNewFile();
         }
         try (FileOutputStream fileOutputStream = new FileOutputStream(file); BufferedOutputStream buff = new BufferedOutputStream(fileOutputStream)) {
@@ -66,7 +67,8 @@ public class FileUtil {
     }
 
     public static void doAppendFile(String content, File file) throws IOException {
-        if (!file.exists()) {
+        if (!file.getParentFile().exists() || !file.exists()) {
+            boolean mkdirs = file.getParentFile().mkdirs();
             boolean newFile = file.createNewFile();
         }
         try (FileWriter writer = new FileWriter(file, true)) {
