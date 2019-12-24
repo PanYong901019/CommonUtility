@@ -222,6 +222,40 @@ public class StringUtil {
         }
     }
 
+    public static int versionCompare(String v1, String v2) {
+        int i = 0, j = 0, x = 0, y = 0;
+        int v1Len = v1.length();
+        int v2Len = v2.length();
+        char c;
+        do {
+            while (i < v1Len) {//计算出V1中的点之前的数字
+                c = v1.charAt(i++);
+                if (c >= '0' && c <= '9') {
+                    x = x * 10 + (c - '0');//c-‘0’表示两者的ASCLL差值
+                } else if (c == '.') {
+                    break;//结束
+                }
+            }
+            while (j < v2Len) {//计算出V2中的点之前的数字
+                c = v2.charAt(j++);
+                if (c >= '0' && c <= '9') {
+                    y = y * 10 + (c - '0');
+                } else if (c == '.') {
+                    break;//结束
+                }
+            }
+            if (x < y) {
+                return -1;
+            } else if (x > y) {
+                return 1;
+            } else {
+                x = 0;
+                y = 0;
+            }
+        } while ((i < v1Len) || (j < v2Len));
+        return 0;
+    }
+
     public static LinkedHashMap<String, String> sign(String signKey, String algorithm, LinkedHashMap<String, String> paramsMap, String apart, boolean toLowerCase) {
         LinkedHashMap<String, String> ret = new LinkedHashMap<String, String>();
         String signature = "";
