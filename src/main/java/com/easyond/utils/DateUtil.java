@@ -354,6 +354,14 @@ public class DateUtil {
         }
     }
 
+    public static String dateToStamp(Date date, String format) {
+        if (date != null) {
+            return dateToStamp(getDateString(date, format), format);
+        } else {
+            return "";
+        }
+    }
+
     public static String dateToStamp(String s, String format) {
         if (!StringUtil.invalid(s)) {
             String res;
