@@ -1,4 +1,4 @@
-package com.easyond.utils;
+package win.panyong.utils;
 
 import org.apache.commons.io.IOUtils;
 

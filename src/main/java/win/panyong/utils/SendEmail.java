@@ -1,4 +1,4 @@
-package com.easyond.utils;
+package win.panyong.utils;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

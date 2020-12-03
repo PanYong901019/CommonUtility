@@ -1,4 +1,4 @@
-package com.easyond.utils;
+package win.panyong.utils;
 
 import com.alibaba.fastjson.TypeReference;
 
