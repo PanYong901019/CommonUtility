@@ -44,6 +44,9 @@ public class StringUtil {
         return false;
     }
 
+    public static String trimToNull(String str) {
+        return invalid(str) ? null : str;
+    }
 
     public static List<String> stringToList(String source, String regex) {
         return Arrays.stream(source.replaceAll("，", ",").split(regex)).collect(Collectors.toList());
