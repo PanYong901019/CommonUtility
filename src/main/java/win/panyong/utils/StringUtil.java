@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -82,7 +83,7 @@ public class StringUtil {
         InputStreamReader reader = null;
         StringBuilder sb = new StringBuilder();
         try {
-            reader = new InputStreamReader(in, "UTF-8");
+            reader = new InputStreamReader(in, StandardCharsets.UTF_8);
             BufferedReader br = new BufferedReader(reader);
             String line;
             while ((line = br.readLine()) != null) {
@@ -174,7 +175,7 @@ public class StringUtil {
         if (invalid(amount)) {
             return amount;
         }
-        if (-1 == amount.indexOf(".")) {
+        if (!amount.contains(".")) {
             return Integer.parseInt(amount) * 100 + "";
         }
         int money_fen = Integer.parseInt(amount.substring(0, amount.indexOf("."))) * 100;
@@ -211,9 +212,9 @@ public class StringUtil {
     public static Boolean verifyIdcard(String idcard) {
         if (!invalid(idcard)) {
             String cardNo = idcard.substring(0, idcard.length() - 1);
-            char pszSrc[] = cardNo.toCharArray();
+            char[] pszSrc = cardNo.toCharArray();
             int iS = 0;
-            int iW[] = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
+            int[] iW = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
             char[] szVerCode = new char[]{'1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};
             for (int i = 0; i < 17; i++) {
                 iS += (pszSrc[i] - '0') * iW[i];
@@ -270,7 +271,7 @@ public class StringUtil {
         try {
             MessageDigest crypt = MessageDigest.getInstance(algorithm);
             crypt.reset();
-            crypt.update(s.toString().getBytes("UTF-8"));
+            crypt.update(s.toString().getBytes(StandardCharsets.UTF_8));
             Formatter formatter = new Formatter();
             for (byte b : crypt.digest()) {
                 formatter.format("%02x", b);

@@ -42,6 +42,10 @@ public class ObjectUtil {
         return JSON.parseObject(jsonString, typeReference);
     }
 
+    public static JSONObject jsonStringToJsonObject(String json) {
+        return JSONObject.parseObject(json);
+    }
+
     public static <T> T jsonObjectToObject(JSONObject jsonObject, Class<T> t) {
         return JSON.parseObject(jsonObject.toJSONString(), t);
     }

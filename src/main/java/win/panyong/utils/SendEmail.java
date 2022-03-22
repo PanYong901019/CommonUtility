@@ -12,7 +12,7 @@ public class SendEmail {
     private static MimeMessage message;
     private static Session session;
     private static Transport transport;
-    private static Properties properties = new Properties();
+    private static final Properties properties = new Properties();
     private static String mailHost;
     private static String senderUsername;
     private static String senderPassword;

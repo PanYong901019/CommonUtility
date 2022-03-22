@@ -276,11 +276,11 @@ public class DateUtil {
             }
             result[i] = sdf.format(calendar.getTime());
         }
-        for (int start = 0, end = result.length - 1; start < end; start++, end--) {
-            String temp = result[end];
-            result[end] = result[start];
-            result[start] = temp;
-        }
+//        for (int start = 0, end = result.length - 1; start < end; start++, end--) {
+//            String temp = result[end];
+//            result[end] = result[start];
+//            result[start] = temp;
+//        }
         return result;
     }
 

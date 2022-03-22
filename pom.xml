@@ -6,7 +6,7 @@
 
     <groupId>win.panyong</groupId>
     <artifactId>common-utility</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2.13</version>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -46,21 +46,24 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.69</version>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>easyexcel</artifactId>
-            <version>1.1.2-beta5</version>
-        </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.apache.poi</groupId>-->
-        <!--<artifactId>poi</artifactId>-->
-        <!--<version>3.14</version>-->
-        <!--</dependency>-->
+
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>3.14</version>
+            <version>3.17</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>ooxml-schemas</artifactId>
+            <version>1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-scratchpad</artifactId>
+            <version>3.17</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -103,8 +106,8 @@
 
     <distributionManagement>
         <repository>
-            <id>thirdparty</id>
-            <url>http://192.168.0.10:9999/repository/thirdparty/</url>
+            <id>za-repo</id>
+            <url>http://maven.heixiaogui.cn/repository/thirdparty/</url>
         </repository>
     </distributionManagement>
 
