@@ -6,7 +6,7 @@
 
     <groupId>win.panyong</groupId>
     <artifactId>common-utility</artifactId>
-    <version>0.0.2.13</version>
+    <version>0.0.2.14</version>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -92,6 +92,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
