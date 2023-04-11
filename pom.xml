@@ -6,7 +6,7 @@
 
     <groupId>win.panyong</groupId>
     <artifactId>common-utility</artifactId>
-    <version>0.0.2.14</version>
+    <version>0.0.2.15</version>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -46,7 +46,6 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.83</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>

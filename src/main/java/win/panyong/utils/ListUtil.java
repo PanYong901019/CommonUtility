@@ -1,6 +1,7 @@
 package win.panyong.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -44,4 +45,14 @@ public class ListUtil {
         }
         return result;
     }
+
+    private static List getRandomList(List list, int n) {
+        Collections.shuffle(list);
+        if (list.size() <= n) {
+            return list;
+        } else {
+            return list.subList(0, n);
+        }
+    }
+
 }

@@ -77,7 +77,6 @@ public class ObjectUtil {
         return map;
     }
 
-
     public static void mapToXmlString(Map map, StringBuffer sb) {
         for (Object aSet : map.keySet()) {
             String key = (String) aSet;
