@@ -1,6 +1,14 @@
 package win.panyong.utils;
 
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.PDFRenderer;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -76,6 +84,24 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<File> pdfToPng(File file, String savePath) {
+        List<File> result = new ArrayList<>();
+        try {
+            PDDocument doc = Loader.loadPDF(file);
+            PDFRenderer renderer = new PDFRenderer(doc);
+            for (int i = 0; i < doc.getNumberOfPages(); i++) {
+                BufferedImage image = renderer.renderImageWithDPI(i, 192);
+                savePath = (savePath.endsWith(File.separator) ? savePath : savePath + File.separator) + (file.getName().split("\\.")[0]) + "_" + i + ".png";
+                File pngFile = new File(savePath);
+                ImageIO.write(image, "png", pngFile);
+                result.add(pngFile);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public static void main(String[] args) throws IOException {

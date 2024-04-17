@@ -6,14 +6,14 @@
 
     <groupId>win.panyong</groupId>
     <artifactId>common-utility</artifactId>
-    <version>0.0.2.15</version>
+    <version>0.0.3.2</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.13</version>
+            <version>4.5.14</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -59,7 +59,12 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-scratchpad</artifactId>
-            <version>5.2.1</version>
+            <version>3.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>3.0.2</version>
         </dependency>
 
 
@@ -104,11 +109,41 @@
         </plugins>
     </build>
 
+    <!-- 配置阿里云仓库 -->
+    <repositories>
+        <repository>
+            <id>aliyun-repos</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>aliyun-repos</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
     <distributionManagement>
         <repository>
-            <id>za-repo</id>
+            <id>za-admin</id>
             <url>http://maven.heixiaogui.cn/repository/thirdparty/</url>
         </repository>
+        <!--        <repository>-->
+        <!--            <id>pan-repo</id>-->
+        <!--            <url>http://private.panyong.win:10083/repository/maven-releases/</url>-->
+        <!--        </repository>-->
     </distributionManagement>
 
 </project>

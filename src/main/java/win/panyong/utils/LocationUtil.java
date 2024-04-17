@@ -1,5 +1,6 @@
 package win.panyong.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 
 import java.io.IOException;
@@ -32,12 +33,12 @@ public class LocationUtil {
      */
     public static Map<String, String> changePosition(String longitude, String latitude, String from, String to) throws Exception {
         Map<String, String> result = new HashMap<>();
-        Map<String, String> param = new HashMap<String, String>();
+        JSONObject param = new JSONObject();
         param.put("coords", longitude + "," + latitude);
         param.put("from", from);
         param.put("to", to);
         param.put("ak", "ZSTYdUEWqemORMENNEzBROoEQtx60PLh");
-        Map<String, Object> stringObjectMap = ObjectUtil.jsonStringToMap(HttpUtil.doHttpGet("http://api.map.baidu.com/geoconv/v1/", param));
+        Map<String, Object> stringObjectMap = ObjectUtil.jsonStringToMap(HttpUtil.doHttpGet("http://api.map.baidu.com/geoconv/v1/", param, null));
         if ((Integer) stringObjectMap.get("status") == 0) {
             Map node = (Map) ((List) stringObjectMap.get("result")).get(0);
             result.put("longitude", ((String) node.get("x"))); //经度
@@ -67,12 +68,12 @@ public class LocationUtil {
             origins.forEach(s -> sb.append(s).append("%7C"));
             sb.substring(0, sb.length() - 1);
             String url = "http://restapi.amap.com/v3/distance";
-            Map<String, String> params = new HashMap<String, String>();
+            JSONObject params = new JSONObject();
             params.put("key", key);
             params.put("origins", sb.toString());
             params.put("destination", destination);
             params.put("type", type);
-            String json = HttpUtil.doHttpGet(url, params);
+            String json = HttpUtil.doHttpGet(url, params, null);
             List<Map<String, String>> maps = ObjectUtil.jsonStringToObject(ObjectUtil.objectToJsonString(ObjectUtil.jsonStringToMap(json).get("results")), new TypeReference<List<Map<String, String>>>() {
             });
             maps.stream().sorted((m1, m2) -> {
