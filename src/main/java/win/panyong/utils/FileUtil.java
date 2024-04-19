@@ -95,6 +95,10 @@ public class FileUtil {
                 BufferedImage image = renderer.renderImageWithDPI(i, 192);
                 savePath = (savePath.endsWith(File.separator) ? savePath : savePath + File.separator) + (file.getName().split("\\.")[0]) + "_" + i + ".png";
                 File pngFile = new File(savePath);
+                if (!pngFile.getParentFile().exists() || !pngFile.exists()) {
+                    boolean mkdirs = pngFile.getParentFile().mkdirs();
+                    boolean newFile = pngFile.createNewFile();
+                }
                 ImageIO.write(image, "png", pngFile);
                 result.add(pngFile);
             }
