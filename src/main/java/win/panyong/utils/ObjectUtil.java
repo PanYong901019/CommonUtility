@@ -1,9 +1,9 @@
 package win.panyong.utils;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONWriter;
+import com.alibaba.fastjson2.TypeReference;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -24,11 +24,11 @@ public class ObjectUtil {
     }
 
     public static String mapToJsonString(Map<String, Object> map) {
-        return JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
+        return JSON.toJSONString(map, JSONWriter.Feature.ReferenceDetection);
     }
 
     public static String objectToJsonString(Object obj) {
-        return JSON.toJSONString(obj, SerializerFeature.DisableCircularReferenceDetect);
+        return JSON.toJSONString(obj, JSONWriter.Feature.ReferenceDetection);
     }
 
     public static <T> T jsonStringToObject(String jsonString, Class<T> t) {

@@ -1,7 +1,8 @@
 package win.panyong.utils;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
+
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 
 import java.io.IOException;
 import java.util.HashMap;
