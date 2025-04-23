@@ -1,9 +1,6 @@
 package win.panyong.utils;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.JSONWriter;
-import com.alibaba.fastjson2.TypeReference;
+import com.alibaba.fastjson2.*;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -41,6 +38,10 @@ public class ObjectUtil {
 
     public static JSONObject jsonStringToJsonObject(String json) {
         return JSONObject.parseObject(json);
+    }
+
+    public static JSONArray jsonStringToJsonArray(String json) {
+        return JSONArray.parseArray(json);
     }
 
     public static <T> T jsonObjectToObject(JSONObject jsonObject, Class<T> t) {

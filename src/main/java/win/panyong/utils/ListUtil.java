@@ -3,6 +3,7 @@ package win.panyong.utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.*;
 
 /**
  * Created by pan on 2020/5/2 1:55 PM
@@ -46,13 +47,49 @@ public class ListUtil {
         return result;
     }
 
-    private static List getRandomList(List list, int n) {
+
+    //随机获取列表中数据
+    public static <T> List<T> getRandomList(List<T> list, int n) {
         Collections.shuffle(list);
         if (list.size() <= n) {
             return list;
         } else {
             return list.subList(0, n);
         }
+    }
+
+
+    public static <T> Consumer<T> consumerWithIndex(BiConsumer<T, Integer> consumer) {
+        class Obj {
+            int i;
+        }
+        Obj obj = new Obj();
+        return t -> {
+            int index = obj.i++;
+            consumer.accept(t, index);
+        };
+    }
+
+    public static <T> Predicate<T> predicateWithIndex(BiPredicate<T, Integer> predicate) {
+        class Obj {
+            int i;
+        }
+        Obj obj = new Obj();
+        return t -> {
+            int index = obj.i++;
+            return predicate.test(t, index);
+        };
+    }
+
+    public static <T, R> Function<T, R> functionWithIndex(BiFunction<T, Integer, R> function) {
+        class Obj {
+            int i;
+        }
+        Obj obj = new Obj();
+        return t -> {
+            int index = obj.i++;
+            return function.apply(t, index);
+        };
     }
 
 }

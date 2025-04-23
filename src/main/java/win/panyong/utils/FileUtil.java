@@ -1,5 +1,6 @@
 package win.panyong.utils;
 
+import com.alibaba.fastjson2.JSONObject;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -8,8 +9,11 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * Created by Pan on 2016/1/10.
@@ -108,7 +112,21 @@ public class FileUtil {
         return result;
     }
 
+    public static List<JSONObject> listDirectory(String dirPath) {
+        List<JSONObject> result = new ArrayList<>();
+        File curfile = new File(dirPath);
+        if (curfile.exists() && curfile.isDirectory() && curfile.listFiles() != null) {
+            for (File file : Objects.requireNonNull(curfile.listFiles())) {
+                if (!file.getName().startsWith(".")) {
+                    result.add(new JSONObject().fluentPut("fileType", file.isDirectory() ? 0 : 1).fluentPut("fileName", file.getName()).fluentPut("path", "/upload/dfs" + dirPath + "/" + file.getName()));
+                }
+            }
+        }
+        return result.stream().sorted(Comparator.comparing(fileInfo -> fileInfo.getString("fileType") + "_" + fileInfo.getString("fileName"))).collect(Collectors.toList());
+    }
+
     public static void main(String[] args) throws IOException {
-        doWriterFile("a\nb\nc\nd\n".getBytes(), "/Users/pan/deleteMe.txt");
+        List<JSONObject> jsonObjects = listDirectory("/Users/pan/");
+        System.out.println(ObjectUtil.objectToJsonString(jsonObjects));
     }
 }

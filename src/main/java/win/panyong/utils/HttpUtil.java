@@ -46,18 +46,23 @@ public class HttpUtil {
         return result;
     }
 
-    public static String doHttpPost(String url, JSONObject parameter, JSONObject header) throws Exception {
+    public static String doHttpPost(String url, JSONObject parameter, JSONObject entry, JSONObject header) throws Exception {
         String result;
         CloseableHttpClient client = HttpClients.createDefault();
-        List<NameValuePair> parameters;
         if (parameter != null) {
-            parameters = new ArrayList<>();
-            parameter.keySet().forEach(key -> parameters.add(new BasicNameValuePair(key, parameter.getString(key))));
+            StringBuilder urlBuilder = new StringBuilder(url + (url.contains("?") ? "&" : "?"));
+            parameter.keySet().forEach(key -> urlBuilder.append(key).append("=").append(parameter.getString(key)).append("&"));
+            url = urlBuilder.substring(0, urlBuilder.toString().length() - 1);
+        }
+        List<NameValuePair> bodyEntry;
+        if (entry != null) {
+            bodyEntry = new ArrayList<>();
+            entry.keySet().forEach(key -> bodyEntry.add(new BasicNameValuePair(key, entry.getString(key))));
         } else {
-            parameters = null;
+            bodyEntry = null;
         }
         HttpPost post = new HttpPost(url);
-        post.setEntity(new UrlEncodedFormEntity(parameters, "utf-8"));
+        post.setEntity(new UrlEncodedFormEntity(bodyEntry, "utf-8"));
         if (header != null) {
             header.keySet().forEach(key -> post.setHeader(key, header.getString(key)));
         }
@@ -67,9 +72,14 @@ public class HttpUtil {
         return result;
     }
 
-    public static String doHttpPostXML(String url, String xml, JSONObject header) throws Exception {
+    public static String doHttpPostXML(String url, JSONObject parameter, String xml, JSONObject header) throws Exception {
         String result;
         CloseableHttpClient client = HttpClients.createDefault();
+        if (parameter != null) {
+            StringBuilder urlBuilder = new StringBuilder(url + (url.contains("?") ? "&" : "?"));
+            parameter.keySet().forEach(key -> urlBuilder.append(key).append("=").append(parameter.getString(key)).append("&"));
+            url = urlBuilder.substring(0, urlBuilder.toString().length() - 1);
+        }
         HttpPost post = new HttpPost(url);
         if (header != null) {
             header.keySet().forEach(key -> post.setHeader(key, header.getString(key)));
@@ -81,9 +91,14 @@ public class HttpUtil {
         return result;
     }
 
-    public static String doHttpPostJson(String url, String json, JSONObject header) throws Exception {
+    public static String doHttpPostJson(String url, JSONObject parameter, String json, JSONObject header) throws Exception {
         String result;
         CloseableHttpClient client = HttpClients.createDefault();
+        if (parameter != null) {
+            StringBuilder urlBuilder = new StringBuilder(url + (url.contains("?") ? "&" : "?"));
+            parameter.keySet().forEach(key -> urlBuilder.append(key).append("=").append(parameter.getString(key)).append("&"));
+            url = urlBuilder.substring(0, urlBuilder.toString().length() - 1);
+        }
         HttpPost post = new HttpPost(url);
         if (header != null) {
             header.keySet().forEach(key -> post.setHeader(key, header.getString(key)));
@@ -99,7 +114,7 @@ public class HttpUtil {
         String tinyurl = null;
         JSONObject map = new JSONObject();
         map.put("url", url);
-        String result = doHttpPost("http://dwz.cn/create.php", map, null);
+        String result = doHttpPost("http://dwz.cn/create.php", null, map, null);
         Map<String, Object> objectMap = ObjectUtil.jsonStringToMap(result);
         tinyurl = (String) objectMap.get("tinyurl");
         return tinyurl;
@@ -110,7 +125,7 @@ public class HttpUtil {
         JSONObject map = new JSONObject();
         map.put("source", "3271760578");
         map.put("url_long", url);
-        String result = doHttpPost("http://api.t.sina.com.cn/short_url/shorten.json", map, null);
+        String result = doHttpPost("http://api.t.sina.com.cn/short_url/shorten.json", null, map, null);
         Map<String, Object> objectMap = ObjectUtil.jsonStringToMap(result);
         tinyurl = (String) objectMap.get("url_short");
         return tinyurl;

@@ -95,6 +95,83 @@ public class StringUtil {
         return sb.toString();
     }
 
+    public static String int2chineseNum(int src) {
+        final String num[] = {"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
+        final String unit[] = {"", "十", "百", "千", "万", "十", "百", "千", "亿", "十", "百", "千"};
+        String dst = "";
+        int count = 0;
+        while (src > 0) {
+            dst = (num[src % 10] + unit[count]) + dst;
+            src = src / 10;
+            count++;
+        }
+        return dst.replaceAll("零[千百十]", "零").replaceAll("零+万", "万")
+                .replaceAll("零+亿", "亿").replaceAll("亿万", "亿零")
+                .replaceAll("零+", "零").replaceAll("零$", "");
+    }
+
+    public static String sortString(String s) {
+        char[] ar = s.trim().toCharArray();
+        Arrays.sort(ar);
+        return String.valueOf(ar);
+    }
+
+    public static Map<String, Integer> stringCount(String s) {
+        Map<String, Integer> map = new HashMap<>();
+        if (!StringUtil.invalid(s)) {
+            char[] tempArray = s.toCharArray();
+            int maxNum = tempArray[0];
+            for (int temp : tempArray) {
+                if (temp > maxNum) {
+                    maxNum = temp;
+                }
+            }
+            int[] bucket = new int[maxNum + 1];
+            bucket[0] = 0;
+            for (int temp : tempArray) {
+                bucket[temp]++;
+            }
+            for (int i = 0; i < bucket.length; i++) {
+                if (bucket[i] > 0) {
+                    map.put(String.valueOf((char) i), bucket[i]);
+                }
+            }
+        }
+        return map;
+    }
+
+//    public static String stringSort(String s) {
+//        char[] tempArray = s.toCharArray();
+//        int maxNum = tempArray[0];
+//        for (int temp : tempArray) {
+//            if (temp > maxNum) {
+//                maxNum = temp;
+//            }
+//        }
+//        int[] bucket = new int[maxNum + 1];
+//        bucket[0] = 0;
+//        for (int temp : tempArray) {
+//            bucket[temp]++;
+//        }
+//        int index = 0;
+//        for (int i = 0; i < bucket.length; i++) {
+//            while (bucket[i]-- > 0) {
+//                tempArray[index++] = (char) i;
+//            }
+//        }
+//        return String.copyValueOf(tempArray);
+//    }
+
+    public static String[] reverse(String[] arr) {
+        for (int i = arr.length - 1; i >= arr.length / 2; i--) {
+            String temp = arr[i]; // 0
+            int a = arr.length - 1 - i; // 5
+            arr[i] = arr[a]; // 将末位赋值给首位
+            arr[a] = temp;
+        }
+        return arr;
+    }
+
     /**
      * 下划线转驼峰
      *
